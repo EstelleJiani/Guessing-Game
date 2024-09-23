@@ -1,5 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React from 'react'
+import colors from './config/colors'
 
 const Button = ({title, onPress, loading = false, disabled = false, buttonStyle}) => {
   return (
@@ -41,19 +42,22 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    color: 'white',
+    color: colors.buttonTextColor,
     fontSize: 16,
   },
   disabled: {
-    backgroundColor: 'gainsboro',
+    backgroundColor: colors.disabledColor,
   },
   confirmButton: {
-    backgroundColor: 'royalblue',
+    backgroundColor: colors.confirmButtonColor,
   },
   redoButton: {
-    backgroundColor: 'salmon',
+    backgroundColor: colors.redoButtonColor,
   },
   restartButton: {
-    backgroundColor: 'cornflowerblue',
+    backgroundColor: colors.restartButtonColor,
+  },
+  newGameButton: {
+    backgroundColor: colors.newGameButtonColor,
   },
 });

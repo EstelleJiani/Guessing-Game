@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+import colors from './config/colors';
 
 const Header = ({title}) => {
   return (
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    color: 'darkblue',
+    color: colors.primaryColor,
     fontSize: 18,
     fontWeight: 'bold',
   },

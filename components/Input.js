@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, TextInput } from 'react-native'
 import React, {useState} from 'react'
+import colors from '../config/colors';
 
 const Input = ({placeholder, onChangeText, validation, errorMessage}) => {
   const [inputValue, setInputValue] = useState('');
@@ -49,20 +50,20 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     padding: 10,
     borderRadius: 5,
-    backgroundColor: 'gainsboro',
+    backgroundColor: colors.cardBackgroundColor,
     borderWidth: 1,
   },
   
   input: {
     height: 40,
-    color: 'darkblue',
-    borderBlockColor: 'darkblue',
+    color: colors.primaryColor,
+    borderBlockColor: colors.primaryColor,
     borderBottomWidth: 2,
     paddingLeft: 10,
   },
 
   error: {
-    color: 'darkgrey',
+    color: colors.errorTextColor,
     fontSize: 12,
     marginTop: 5,
   },
