@@ -6,7 +6,7 @@ import Label from '../components/Label';
 import CheckBox from '@react-native-community/checkbox';
 import colors from '../config/colors';
 
-const StartScreen = ({ onStartGame, appName }) => {
+const StartScreen = ({ onConfirm, appName }) => {
   // State variables to store user input
   const [name, setName] = useState('');
   const [email , setEmail] = useState('');
@@ -63,7 +63,7 @@ const StartScreen = ({ onStartGame, appName }) => {
     const isValid = inputValidation();
 
     if (isValid && isRobotChecked) {
-      onStartGame({name, email, phone});
+      onConfirm({name, email, phone});
     } else {
       Alert.alert('Invalid Input', 'Check the input values', [{ text: 'OK' }]);
     }
