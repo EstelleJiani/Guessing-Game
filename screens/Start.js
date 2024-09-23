@@ -122,7 +122,7 @@ const StartScreen = ({ onStartGame, appName }) => {
             title='Reset'
             onPress={handleReset}/>
           <Button
-            title='Start'
+            title='Register'
             onPress={handleStart}
             disabled={!isFormComplete}/>
         </View>
