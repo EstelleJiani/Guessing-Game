@@ -1,6 +1,7 @@
 const colors = {
   primaryColor:"darkblue",
   secondaryColor:"lightblue",
+  cardBackgroundColor:"black",
 
   disabledColor:"gainsboro",
   buttonTextColor:"white",

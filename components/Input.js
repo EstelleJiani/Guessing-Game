@@ -48,6 +48,7 @@ export default Input;
 const styles = StyleSheet.create({
   container:{
     marginVertical: 12,
+    marginLeft: 10,
     padding: 10,
     borderRadius: 5,
     backgroundColor: colors.cardBackgroundColor,
@@ -56,6 +57,7 @@ const styles = StyleSheet.create({
   
   input: {
     height: 40,
+    fontSize: 16,
     color: colors.primaryColor,
     borderBlockColor: colors.primaryColor,
     borderBottomWidth: 2,
