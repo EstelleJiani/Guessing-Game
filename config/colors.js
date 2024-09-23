@@ -1,7 +1,12 @@
+import { LinearGradient } from "expo-linear-gradient";
+
 const colors = {
   primaryColor:"darkblue",
   secondaryColor:"lightblue",
-  cardBackgroundColor:"black",
+  
+  // Background color
+  backgroundGradientStart:'#a8c0ff',
+  backgroundGradientEnd:'#fff5ee',
 
   disabledColor:"gainsboro",
   buttonTextColor:"white",

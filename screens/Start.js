@@ -120,9 +120,11 @@ const StartScreen = ({ onConfirm, appName }) => {
         <View style={styles.buttonContainer}>
           <Button
             title='Reset'
+            color={colors.redoButtonColor}
             onPress={handleReset}/>
           <Button
             title='Register'
+            color={colors.confirmButtonColor}
             onPress={handleStart}
             disabled={!isFormComplete}/>
         </View>

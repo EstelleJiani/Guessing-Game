@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState }from 'react';
 import Start from '../screens/Start';
 import Confirm from '../screens/Confirm';
@@ -33,12 +34,27 @@ const App = () => {
   }
 
   return (
-    <>
-    {currentScreen === 'start' && <Start onConfirm={handleConfirm} appName="Guessing Game" />}
-    {currentScreen === 'confirm' && <Confirm userData={userData} onStartGame={handleGameStart} onEdit={handleEdit} />}
-    {currentScreen === 'game' && <Game />}
-    </>
+    <LinearGradient
+      colors={
+        [colors.backgroundGradientStart, colros.backgroundGradientEnd]}
+        start={{x: 0, y: 0}}
+        end={{x: 0, y: 1}}
+        style={styles.container}>
+      <View>
+        {currentScreen === 'start' && <Start onConfirm={handleConfirm} appName="Guessing Game" />}
+        {currentScreen === 'confirm' && <Confirm userData={userData} onStartGame={handleGameStart} onEdit={handleEdit} />}
+        {currentScreen === 'game' && <Game />}
+      </View>
+    </LinearGradient>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default App;
