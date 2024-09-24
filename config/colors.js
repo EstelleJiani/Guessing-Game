@@ -4,7 +4,7 @@ const colors = {
   primaryColor:"darkblue",
   secondaryColor:"lightblue",
   
-  // Background color
+  // Gradient background colors
   backgroundGradientStart:'#a8c0ff',
   backgroundGradientEnd:'#fff5ee',
 

@@ -1,9 +1,7 @@
 const GameLogic={
   // Generate a number that is a multiple of the last digit of the phone number
   // between 1 and 100(inclusive).
-  generateNumber: (phoneNumber) => {
-    // Get the last digit of the phone number using modulo 10
-    const lastDigit = phoneNumber % 10;
+  generateNumber: (lastDigit) => {
     // Generate the guessing number
     // If the last digit is 0, given a defualt value of 1
     if (lastDigit === 0) {
@@ -21,15 +19,21 @@ const GameLogic={
   },
 
   // Check if the guess is correct, indicating too high or too low
-  checkGuess: (guess, correctNumber) => {
-    if (guess === correctNumber) {
-      return 'correct';
-    } else if (guess > correctNumber) {
-      return 'too high';
+  checkGuess: (guessedNumber, chosenNumber, attempts) => {
+    let feedbackMessage = '';
+    let correct = false;
+    let attemptsLeft = attempts - 1;
+
+    if (guessedNumber === chosenNumber) {
+      correct = true;
+      feedbackMessage = 'You guessed correct!';
+    } else if (guessedNumber > chosenNumber) {
+      feedbackMessage = 'You did not guess correct! You should guess lower.';
     } else {
-      return 'too low';
+      feedbackMessage =  'You did not guess correct! You should guess higher.';
     }
-  }
+    return { correct, feedbackMessage, attemptsLeft };
+  },
 };
 
 export default GameLogic;
