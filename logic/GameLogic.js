@@ -1,14 +1,11 @@
-const GameLogic={
+const GameLogic = {
   // Generate a number that is a multiple of the last digit of the phone number
-  // between 1 and 100(inclusive).
+  // between lastDigit and 100(inclusive).
   generateNumber: (lastDigit) => {
     // Generate the guessing number
-    // If the last digit is 0, given a defualt value of 1
-    if (lastDigit === 0) {
-      return 1;
-    }
     // Generate an array of multiples of the last digit between 1 and 100
     const multiples = [];
+    // Loop through lastDigit to 100 and add multiples of the last digit to the array
     for (let i = lastDigit; i <=100; i += lastDigit) {
       multiples.push(i);
     }

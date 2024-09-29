@@ -1,75 +1,147 @@
-import { StyleSheet, Text, View, TextInput, Button, Alert, Image } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { SafeAreaView, View, StyleSheet, Text, Button, Alert, Image, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import colors from '../config/colors';
 import GameLogic from '../logic/GameLogic';
+import Input from '../components/Input';
+import colors from '../config/colors';
 
-const Game = ({ phoneNumber, onRestart }) => {
-
+const Game = ({ chosenNumber, onRestart }) => {
+  const [guess, setGuess] = useState('');
   const [gameStarted, setGameStarted] = useState(false);
-  const [timer, setTimer] = useState(60);
-  coonst[attemptsLeft, setAttemptsLeft] = useState(4);
-  const [inputValue, setInputValue] = useState('');
-  const [hintUsed, setHintUsed] = useState(false);
-  const [chosenNumber, setChosenNumber] = useState(null);
-  const [feedback, setFeedback] = useState('');
   const [gameOver, setGameOver] = useState(false);
+  const [hintUsed, setHintUsed] = useState(false);
+  const [attempts, setAttempts] = useState(4);
+  const [timer, setTimer] = useState(60);
+  const [feedback, setFeedback] = useState('');
   const [won, setWon] = useState(false);
 
+  // Timer logic
   useEffect(() => {
-    if(gameStarted && timer > 0) {
+    if(gameStarted && timer > 0 && !gameOver) {
       const interval = setInterval(() => {
         setTimer((prev) => prev - 1);
       }, 1000);
-
       return () => clearInterval(interval);
-    } else if(timer === 0) {
+    } else {
       setGameOver(true);
       setFeedback('You are out of time!');
     }
-  }, [gameStarted, timer]);
+  }, [timer]);
 
-  useEffect(() => {
-    // Pick the chosen number by parsing the last digit of the phone number
-    if (phoneNumber) {
-      const lastDigit = parseInt(phoneNumber[phoneNumber.length - 1], 10);
-      setChosenNumber(GameLogic.generateNumber(lastDigit));
-    }
-  }, [phoneNumber]);
-
-  const startGame = () => {
+  const handleStartGame = () => {
     setGameStarted(true);
     setFeedback('');
-  }
+  };
 
   const handleGuess = () => {
-    const guessedNumber = parseInt(inputValue, 10);
+    const guessedNumber = parseInt(guess, 10);
     if (isNaN(guessedNumber) || guessedNumber < 1 || guessedNumber > 100) {
       Alert.alert('Invalid input', 'Please enter a valid number between 1 and 100', [{ text: 'OK' }]);
       return;
     }
 
-    const { correct, feedbackMessage, attemptsLeft } = GameLogic.checkGuess(
-      guessedNumber, chosenNumber, attemptsLeft);
+    const { correct, feedback, attempts } = GameLogic.checkGuess(
+      guessedNumber, chosenNumber, attempts);
     
-    setAttemptsLeft(attemptsLeft);
-    setFeedback(feedbackMessage);
+    setAttempts(attempts);
+    setFeedback(feedback);
 
     if (correct) {
       setWon(true);
       setGameOver(true);
-      setFeedback(feedbackMessage);
+      setFeedback(feedback);
     } else {
-      setFeedback(feedbackMessage);
-      setAttemptsLeft(attemptsLeft);
-      setInputValue('');
+      setFeedback(feedback);
+      setAttempts(attempts);
+      setGuess('');
     }
 
-    if (attemptsLeft === 0) {
+    if (attempts === 0) {
       setGameOver(true);
       setFeedback('You are out of attempts!');
     }
-  }
+  };
+
+  const handleHint = () => {
+    if (!hintUsed) {
+      setHintUsed(true);
+      Alert.alert('Hint', `The number is a multiple of ${chosenNumber % 10}`);
+    }
+  };
+
+  const handleGameOver = (reason) => {
+    setGameOver(true);
+
+    if (reason === 'time') {
+      Alert.alert('Game Over', 'Time is up!');
+    } else if (reason === 'attempts') {
+      Alert.alert('Game Over', 'You are out of attempts!');
+    }
+  };
+
+  const handleNewGame = () => {
+    setGuess('');
+    setGameStarted(false);
+    setGameOver(false);
+    setHintUsed(false);
+    setAttempts(4);
+    setTimer(60);
+    setWon(false);
+
+    onRestart(); // Notify parent to restart with new number
+  };
+
+  return (
+    <SafeAreaView>
+      {gameOver && won && (
+        <View style={styles.modal}>
+          <Text>You guessed correct!</Text>
+          <Text>Attempts used: {4 - attempts}</Text>
+          <Image
+            source={{ uri: `https://picsum.photos/id/${chosenNumber}/100/100` }}
+            style={{ width: 100, height: 100 }}
+          />
+          <Button title="New Game" onPress={handleNewGame} />
+        </View>
+      )}
+
+      {gameOver && !won && (
+        <View style={styles.modal}>
+          <Text>The game is over!</Text>
+          <Image source={require('../assets/sad-face.png')} style={{width: 100, height: 100}} />
+          <Text>{timer === 0 ? 'You are out of time' : 'You are out of attempts'}</Text>
+          <Button title="New Game" onPress={handleNewGame} />
+        </View>
+      )}
+
+      {!gameStarted && !gameOver && (
+        <View style={styles.modal}>
+          <Text>Guess a number between 1 & 100 that is a multiple of the last digit of your phone number.</Text>
+          <Button title="Start" onPress={handleStartGame} />
+        </View>
+      )}
+
+      {gameStarted && !gameOver && (
+        <View style={styles.modal}>
+          <Input
+            style={styles.input}
+            placeholder="Enter your guess"
+            value={guess}
+            onChangeText={setGuess}
+            keyboardType="numeric"
+          />
+          <Text>Attempts left: {attempts}</Text>
+          <Text>Timer: {timer}s</Text>
+          <Button title="Use a Hint" onPress={handleHint} disabled={hintUsed} />
+          <Button title="Submit guess" onPress={handleGuess} />
+        </View>
+      )}
+
+      <TouchableOpacity onPress={onRestart} style={styles.restartButton}>
+        <Text>Restart</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  )
 };
 
 

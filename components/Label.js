@@ -1,8 +1,8 @@
-import { StyleSheet, Text } from 'react-native'
-import React, { Children } from 'react'
+import React from 'react'
+import { Text, StyleSheet } from 'react-native'
 import colors from '../config/colors'
 
-const Label = ({children, style}) => {
+const Label = ({children}) => {
   return (
     <Text style={styles.label}>{children}</Text>
   );
@@ -16,5 +16,6 @@ const styles = StyleSheet.create({
     color: colors.primaryColor,
     marginLeft: 10,
     marginBottom: 5,
+    textAlign: 'left',
   },
 })

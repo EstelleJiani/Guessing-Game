@@ -16,6 +16,7 @@ const colors = {
   restartButtonColor:"cornflowerblue",
 
   cardBackgroundColor:"gainsboro",
+  cardShadowColor:"darkgrey",
   errorTextColor:"darkgrey",
 };
 

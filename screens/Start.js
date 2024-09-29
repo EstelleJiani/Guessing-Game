@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, Alert, Button, SafeAreaView, Modal } from 'react-native';
 import React, { useState } from 'react';
+import { SafeAreaView, View, Button, Alert, Keyboard, StyleSheet } from 'react-native';
+import CheckBox from 'expo-checkbox';
 import Header from '../components/Header';
 import Input from '../components/Input';
 import Label from '../components/Label';
-import CheckBox from 'expo-checkbox';
 import colors from '../config/colors';
 
 const Start = ({ onConfirm, appName }) => {
@@ -25,6 +25,7 @@ const Start = ({ onConfirm, appName }) => {
 
     if (inputedName.length === 0) {
       setNameError('');
+      isValid = false;
     } else if (inputedName.length <= 1) {
       setNameError('Names should be more than 1 character');
       isValid = false;
@@ -45,6 +46,7 @@ const Start = ({ onConfirm, appName }) => {
 
     if (inputedEmail.length === 0) {
       setEmailError('');
+      isValid = false;
     } else if (!inputedEmail.includes('@') || !inputedEmail.includes('.')) {
       setEmailError('Please enter a valid email address');
       isValid = false;
@@ -62,13 +64,15 @@ const Start = ({ onConfirm, appName }) => {
 
     if (inputedPhone.length === 0) {
       setPhoneError('');
+      isValid = false;
     } else if (inputedPhone.length !== 10) {
       setPhoneError('Phone number must be 10 digits');
       isValid = false;
     } else if (isNaN(inputedPhone)) {
       setPhoneError ('Phone number must contain only numbers');
       isValid = false;
-    } else if (inputedPhone[inputedPhone.length - 1] === '0' || inputedPhone[inputedPhone.length - 1] === '1') {
+    } else if (inputedPhone[inputedPhone.length - 1] === '0' ||
+               inputedPhone[inputedPhone.length - 1] === '1') {
       setPhoneError('The last digit cannot be 0 or 1');
       isValid = false;
     } else {
@@ -120,65 +124,78 @@ const Start = ({ onConfirm, appName }) => {
       <View style={styles.topView}>
         <Header name={appName}/>
       </View>
-      <View style={styles.modalContainer}>
-        <Input
-          label='Name'
-          errorMsg={nameError}
-          placeholder='Enter your name'
-          value={name}
-          onChangeText={validateName}/>
+      <View style={styles.bottomView}>
+          <View style={styles.infomationContainer}>
+          <Input
+            label='Name'
+            errorMsg={nameError}
+            placeholder='Enter your name'
+            value={name}
+            onChangeText={validateName}/>
 
-        <Input
-          label='Email'
-          errorMsg={emailError}
-          placeholder={'Enter your email'}
-          value={email}
-          onChangeText={validateEmail}/>
+          <Input
+            label='Email'
+            errorMsg={emailError}
+            placeholder={'Enter your email'}
+            value={email}
+            keyboardType='email-address'
+            onChangeText={validateEmail}/>
 
-        <Input
-          label='Phone'
-          errorMsg={phoneError}
-          placeholder={'Enter your phone number'}
-          value={phone}
-          onChangeText={validatePhone}/>
+          <Input
+            label='Phone'
+            errorMsg={phoneError}
+            placeholder={'Enter your phone number'}
+            value={phone}
+            keyboardType='numeric'
+            returnKeyType="done"
+            onSubmitEditing={Keyboard.dismiss}
+            onChangeText={validatePhone}/>
 
-        <View style={styles.checkBoxContainer}> 
-          <CheckBox style={styles.checkBox}
-            value={isRobotChecked}
-            onValueChange={setIsRobotChecked}/>
-          <Label>I am not a robot</Label>
-        </View>
+          <View style={styles.checkBoxContainer}> 
+            <CheckBox style={styles.checkBox}
+              value={isRobotChecked}
+              onValueChange={setIsRobotChecked}/>
+            <Label>I am not a robot</Label>
+          </View>
 
-        <View style={styles.buttonContainer}>
-          <Button
-            title='Reset'
-            color={colors.redoButtonColor}
-            onPress={handleReset}/>
-          <Button
-            title='Register'
-            color={colors.confirmButtonColor}
-            onPress={handleStart}
-            disabled={!isFormComplete}/>
+          <View style={styles.buttonContainer}>
+            <Button
+              title='Reset'
+              color={colors.redoButtonColor}
+              onPress={handleReset}/>
+            <Button
+              title='Register'
+              color={colors.confirmButtonColor}
+              onPress={handleStart}
+              disabled={!isFormComplete}/>
+          </View>
         </View>
       </View>
     </SafeAreaView>
   );
 };
 
+export default Start;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: colors.backgroundColor,
   },
   infomationContainer:{
+    width: 300,
+    height: 410,
     marginVertical: 12,
     marginLeft: 10,
-    padding: 10,
-    borderRadius: 5,
+    padding: 35,
+    borderRadius: 10,
     backgroundColor: colors.cardBackgroundColor,
-    borderWidth: 1,
+    shadowColor: colors.cardShadowColor,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 5,
   },
   topView: {
     flex: 1,
@@ -186,7 +203,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bottomView: {
-    flex: 6,
+    flex: 10,
     alignContent: 'center',
     justifyContent: 'center',
   },
@@ -204,6 +221,3 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
 });
-
-
-export default Start;

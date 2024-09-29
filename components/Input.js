@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native'
 import React, {useState} from 'react'
+import { Text, TextInput, StyleSheet } from 'react-native'
 import colors from '../config/colors';
 
 const Input = (props) => {
@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     color: colors.primaryColor,
-    marginLeft: 10,
     marginBottom: 5,
+    textAlign: 'left',
   },
   input: {
     height: 40,
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     color: colors.primaryColor,
     borderBlockColor: colors.primaryColor,
     borderBottomWidth: 2,
-    paddingLeft: 10,
+    textAlign: 'left',
   },
   errorText: {
     color: colors.errorTextColor,

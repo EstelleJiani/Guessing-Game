@@ -1,12 +1,10 @@
-// import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState }from 'react';
+import { View, StyleSheet } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import Start from './screens/Start';
-// import Confirm from './screens/Confirm';
-// import Game from './screens/Game';
+import Confirm from './screens/Confirm';
+import Game from './screens/Game';
 import colors from './config/colors';
-
 
 const App = () => {
   // set the current screen to 'start' by default
@@ -16,6 +14,7 @@ const App = () => {
     email: '',
     phone: '',
   });
+  const [chosenNumber, setChosenNumber] = useState(null);
 
   // Function to navigate from the start screen to the confirm screen
   const handleConfirm = (data) => {
@@ -26,6 +25,8 @@ const App = () => {
 
   // Function to navigate from the confirm screen to the game screen
   const handleGameStart = () => {
+    const lastDigit = parseInt(userData.phone[userData.phone.length - 1], 10);
+    setChosenNumber(GameLogic.generateNumber(lastDigit));
     setCurrentScreen('game');
   }
 
@@ -36,26 +37,33 @@ const App = () => {
 
   return (
     <LinearGradient
-      colors = {
+      colors={
         [colors.backgroundGradientStart, colors.backgroundGradientEnd]}
-        start = {{x: 0, y: 0}}
-        end = {{x: 0, y: 1}}
-        style = {styles.container}>
-      <View>
-        {currentScreen === 'start' && <Start onConfirm={handleConfirm} appName="Guessing Game" />}
-        {/* {currentScreen === 'confirm' && <Confirm userData={userData} onStartGame={handleGameStart} onEdit={handleEdit} />}
-        {currentScreen === 'game' && <Game />} */}
+      style={styles.background}>
+      <View style={styles.container}>
+        <Start onConfirm={handleConfirm} appName="Guessing Game" />
+        {currentScreen === 'confirm' && (
+          <Confirm userData={userData}
+                   onContinue={handleGameStart}
+                   onGoBack={handleEdit} />
+        )}
+        {currentScreen === 'game' && (
+          <Game chosenNumber={chosenNumber} onRestart={handleEdit} />
+        )}
       </View>
     </LinearGradient>
   )
 }
 
+export default App;
+
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
 });
-
-export default App;

@@ -1,62 +1,54 @@
-import { StyleSheet, Text, View, Button, Modal } from 'react-native'
 import React from 'react'
+import { Modal, View, Button, StyleSheet } from 'react-native'
+import Label from '../components/Label';
 import colors from '../config/colors'
-import { LinearGradient } from 'expo-linear-gradient'
 
-const Confirm = ({ isVisible, onGoBack, onContinue, userInfo }) => {
+const Confirm = ({ onGoBack, onContinue, userData }) => {
   return(
-    <Modal visible={isVisible} animationType='fade' transparent>
-      <LinearGradient
-        colors={[colors.backgroundGradientStart, colors.backgroundGradientEnd]}
-        start={{x: 0, y: 0}}
-        end={{x: 0, y: 1}}
-        style={styles.modalOverlay}>
-          <View style={styles.card}>
-            <Text style={styles.infoText}>Hello {userInfo.name}</Text>
-            <Text style={styles.infoText}>Here is the information you entered:</Text>
-            <Text style={styles.infoText}>Email: {userInfo.email}</Text>
-            <Text style={styles.infoText}>Phone: {userInfo.phone}</Text>
-            <Text style={styles.infoText}>If it is not correct, please go back and edit them.</Text>
+    <Modal transparent={true} animationType='slide'>
+      <View style={styles.modalBackground}>
+        <View style={styles.modalContainer}>
+          <Label>Hello {userData.name}</Label>
+          <Label>Here is the information you entered:</Label>
+          <Label>Email: {userData.email}</Label>
+          <Label>Phone: {userData.phone}</Label>
+          <Label>If it is not correct, please go back and edit them.</Label>
 
-            <View style={styles.buttonContainer}>
-              <Button 
-                title='Go back'
-                color={colors.redoButtonColor}
-                onPress={onGoBack}/>
-              <Button 
-                title='Continue'
-                color={colors.confirmButtonColor}
-                onPress={onContinue}/>
-            </View>
+          <View style={styles.buttonContainer}>
+            <Button 
+              title='Go back'
+              color={colors.redoButtonColor}
+              onPress={onGoBack}/>
+            <Button 
+              title='Continue'
+              color={colors.confirmButtonColor}
+              onPress={onContinue}/>
           </View>
-      </LinearGradient>
+        </View>
+      </View>
     </Modal>
   );
 };
 
+export default Confirm;
+
 const styles = StyleSheet.create({
-  modalOverlay: {
+  modalBackground: {
     flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
-  modalContent: {
-    width: '80%',
-    padding: 20,
-    borderRadius: 10,
-  },
-  card: {
+  modalContainer: {
+    width: 300,
     backgroundColor: colors.cardBackgroundColor,
-    padding: 20,
     borderRadius: 10,
-    width: '80%',
-    alignItems: 'center',
-  },
-  infoText: {
-    color: colors.primaryColor,
-    fontSize: 20,
-    marginBottom: 20,
+    padding: 20,
+    shadowColor: colors.cardShadowColor,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 5,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -64,6 +56,11 @@ const styles = StyleSheet.create({
     width: '80%',
     marginTop: 20,
   },
-});
 
-export default Confirm;
+  // tansparentGradient: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   backgroundColor: colors.transparentBackground,
+  // },
+});
