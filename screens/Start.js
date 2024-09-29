@@ -121,26 +121,26 @@ const Start = ({ onConfirm, appName }) => {
         <Header name={appName}/>
       </View>
       <View style={styles.modalContainer}>
-        <Label>Name</Label>
         <Input
-          placeholder={'Enter your name'}
+          label='Name'
+          errorMsg={nameError}
+          placeholder='Enter your name'
           value={name}
           onChangeText={validateName}/>
-        {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
 
-        <Label>Email</Label>
         <Input
+          label='Email'
+          errorMsg={emailError}
           placeholder={'Enter your email'}
           value={email}
           onChangeText={validateEmail}/>
-        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
 
-        <Label>Phone</Label>
         <Input
+          label='Phone'
+          errorMsg={phoneError}
           placeholder={'Enter your phone number'}
           value={phone}
           onChangeText={validatePhone}/>
-        {phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}
 
         <View style={styles.checkBoxContainer}> 
           <CheckBox style={styles.checkBox}
@@ -198,11 +198,6 @@ const styles = StyleSheet.create({
   checkBox: {
     color: colors.primaryColor,
     marginLeft: 10,
-  },
-  errorText: {
-    color: colors.errorTextColor,
-    fontSize: 10,
-    marginBottom: 10,
   },
   buttonContainer: {
     flexDirection: 'row',
