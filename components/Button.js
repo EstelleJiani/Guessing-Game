@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React from 'react'
-import colors from './config/colors'
+import colors from '../config/colors'
 
 const Button = ({title, onPress, loading = false, disabled = false, buttonStyle}) => {
   return (
@@ -20,8 +20,8 @@ const Button = ({title, onPress, loading = false, disabled = false, buttonStyle}
         <Text style={styles.buttonText}>{title}</Text>
       }
     </TouchableOpacity>
-  )
-}
+  );
+};
 
 export default Button;
 

@@ -5,8 +5,10 @@ import colors from '../config/colors'
 const Label = ({children, style}) => {
   return (
     <Text style={styles.label}>{children}</Text>
-  )
-}
+  );
+};
+
+export default Label;
 
 const styles = StyleSheet.create({
   label: {

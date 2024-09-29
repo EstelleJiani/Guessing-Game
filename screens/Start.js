@@ -1,12 +1,12 @@
-import { StyleSheet, Text, View, Alert, Button, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Alert, Button, SafeAreaView, Modal } from 'react-native';
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Input from '../components/Input';
 import Label from '../components/Label';
-import CheckBox from '@react-native-community/checkbox';
+import CheckBox from 'expo-checkbox';
 import colors from '../config/colors';
 
-const StartScreen = ({ onConfirm, appName }) => {
+const Start = ({ onConfirm, appName }) => {
   // State variables to store user input
   const [name, setName] = useState('');
   const [email , setEmail] = useState('');
@@ -18,42 +18,74 @@ const StartScreen = ({ onConfirm, appName }) => {
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
 
-  // Validation functions to check if the user input is valid
-  const inputValidation = () => {
+  const validateName = (inputedName) => {
+    setName(inputedName);
+
     let isValid = true;
 
-    // Name validation
-    if (name.length <= 1 ) {
+    if (inputedName.length === 0) {
+      setNameError('');
+    } else if (inputedName.length <= 1) {
       setNameError('Names should be more than 1 character');
       isValid = false;
-    } else if (/\d/.name(text)) {
+    } else if (/\d/.test(inputedName)) {
       setNameError('Names should not contain numbers');
       isValid = false;
     } else {
       setNameError('');
     }
 
-    // Email validation
-    if (!email.includes('@') || !email.includes('.')) {
+    return isValid;
+  };
+
+  const validateEmail = (inputedEmail) => {
+    setEmail(inputedEmail);
+
+    let isValid = true;
+
+    if (inputedEmail.length === 0) {
+      setEmailError('');
+    } else if (!inputedEmail.includes('@') || !inputedEmail.includes('.')) {
       setEmailError('Please enter a valid email address');
       isValid = false;
     } else {
       setEmailError('');
     }
 
-    // Phone validation
-    if (phone.length !== 10) {
+    return isValid;
+  };
+
+  const validatePhone = (inputedPhone) => {
+    setPhone(inputedPhone);
+
+    let isValid = true;
+
+    if (inputedPhone.length === 0) {
+      setPhoneError('');
+    } else if (inputedPhone.length !== 10) {
       setPhoneError('Phone number must be 10 digits');
       isValid = false;
-    } else if (isNaN(phone)) {
+    } else if (isNaN(inputedPhone)) {
       setPhoneError ('Phone number must contain only numbers');
       isValid = false;
-    } else if (phone[phone.length - 1] === '0' || phone[phone.length - 1] === '1') {
+    } else if (inputedPhone[inputedPhone.length - 1] === '0' || inputedPhone[inputedPhone.length - 1] === '1') {
       setPhoneError('The last digit cannot be 0 or 1');
       isValid = false;
     } else {
       setPhoneError('');
     }
+
+    return isValid;
+  };
+
+  // Validation functions to check if the user input is valid
+  const inputValidation = () => {
+    let isValid = true;
+
+    // Name, Email and Phone validation
+    isValid = validateName(name) &&
+              validateEmail(email) &&
+              validatePhone(phone);
 
     return isValid;
   };
@@ -88,26 +120,26 @@ const StartScreen = ({ onConfirm, appName }) => {
       <View style={styles.topView}>
         <Header name={appName}/>
       </View>
-      <View>
+      <View style={styles.modalContainer}>
         <Label>Name</Label>
         <Input
           placeholder={'Enter your name'}
           value={name}
-          onChangeText={setName}/>
+          onChangeText={validateName}/>
         {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
 
         <Label>Email</Label>
         <Input
           placeholder={'Enter your email'}
           value={email}
-          onChangeText={setEmail}/>
+          onChangeText={validateEmail}/>
         {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
 
         <Label>Phone</Label>
         <Input
           placeholder={'Enter your phone number'}
           value={phone}
-          onChangeText={setPhone}/>
+          onChangeText={validatePhone}/>
         {phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}
 
         <View style={styles.checkBoxContainer}> 
@@ -140,6 +172,14 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: colors.backgroundColor,
   },
+  infomationContainer:{
+    marginVertical: 12,
+    marginLeft: 10,
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: colors.cardBackgroundColor,
+    borderWidth: 1,
+  },
   topView: {
     flex: 1,
     alignContent: 'center',
@@ -171,4 +211,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default StartScreen;
+export default Start;
