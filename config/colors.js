@@ -12,6 +12,7 @@ const colors = {
 
   disabledColor:"gainsboro",
   buttonTextColor:"white",
+  hintTextColor:"black",
   redoButtonColor:"salmon",
   confirmButtonColor:"royalblue",
   newGameButtonColor:"royalblue",

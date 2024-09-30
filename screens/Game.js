@@ -38,8 +38,10 @@ const Game = ({ lastDigit, onRestart }) => {
       case 'rules':
         return (
           <>
-            <Label>Guess a number between 1 & 100 that is multiply of {lastDigit}</Label>
-            <Label>You have 60 seconds and 4 attempts.</Label>
+            <Label type='label'>
+              Guess a number between 1 & 100 that is multiply of {lastDigit}.
+              {"\n"}You have 60 seconds and 4 attempts.
+            </Label>
             <Button title="Start" onPress={handleStartGame} />
           </>
         );
@@ -47,7 +49,6 @@ const Game = ({ lastDigit, onRestart }) => {
         return (
           <>
             <Label>Guess a number between 1 & 100 that is multiply of {lastDigit}</Label>
-            <Label> ------ Chosen number: {chosenNumber} ------ </Label>
             <Input
               style={styles.input}
               placeholder="Enter your guess"
@@ -55,9 +56,9 @@ const Game = ({ lastDigit, onRestart }) => {
               onChangeText={setGuess}
               keyboardType="numeric"
             />
-            <Label>{hint}</Label>
-            <Label>Attempts left: {attempts}</Label>
-            <Label>Timer: {timer}s</Label>
+            <Label type='hint'>{hint}</Label>
+            <Label type='tips'>Attempts left: {attempts}</Label>
+            <Label type='tips'>Timer: {timer}s</Label>
             <Button title="Use a Hint" onPress={handleHint} disabled={hintUsed} />
             <Button title="Submit guess" onPress={handleGuess} />
           </>

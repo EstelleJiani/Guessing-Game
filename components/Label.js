@@ -30,6 +30,8 @@ const Label = (props) => {
         return styles.checkboxLabel;
       case 'errorText':
         return styles.errorText;
+      case 'hint':
+        return styles.hint;
       case 'tips':
         return styles.tips;
       default:
@@ -93,6 +95,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.errorTextColor,
   },
+  hint: {
+    fontSize: 16,
+    color: colors.hintTextColor,
+  },
   tips: {
+    fontSize: 14,
+    color: colors.errorTextColor,
   },
 })
