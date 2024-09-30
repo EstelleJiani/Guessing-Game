@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Button, Alert, Keyboard, StyleSheet } from 'react-native';
+import { SafeAreaView, View, Button, Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native';
 import CheckBox from 'expo-checkbox';
-import Header from '../components/Header';
 import Input from '../components/Input';
 import Label from '../components/Label';
+import commonStyles from '../config/commonStyles';
 import colors from '../config/colors';
 
 const Start = ({ onConfirm, appName }) => {
@@ -120,101 +120,75 @@ const Start = ({ onConfirm, appName }) => {
   const isFormComplete = name && email && phone && isRobotChecked;
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.topView}>
-        <Header name={appName}/>
-      </View>
-      <View style={styles.bottomView}>
-          <View style={styles.infomationContainer}>
-          <Input
-            label='Name'
-            errorMsg={nameError}
-            placeholder='Enter your name'
-            value={name}
-            onChangeText={validateName}/>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <SafeAreaView>
+        <ScrollView contentContainerStyle={commonStyles.container}>
+          <Label type='header'>Welcome to {appName}</Label>
+          <View style={commonStyles.container}>
+            <View style={commonStyles.card}>
+              <Input
+                label='Name'
+                errorMsg={nameError}
+                placeholder='Enter your name'
+                value={name}
+                onChangeText={validateName}/>
 
-          <Input
-            label='Email'
-            errorMsg={emailError}
-            placeholder={'Enter your email'}
-            value={email}
-            keyboardType='email-address'
-            onChangeText={validateEmail}/>
+              <Input
+                label='Email'
+                errorMsg={emailError}
+                placeholder={'Enter your email'}
+                value={email}
+                keyboardType='email-address'
+                onChangeText={validateEmail}/>
 
-          <Input
-            label='Phone'
-            errorMsg={phoneError}
-            placeholder={'Enter your phone number'}
-            value={phone}
-            keyboardType='numeric'
-            returnKeyType="done"
-            onSubmitEditing={Keyboard.dismiss}
-            onChangeText={validatePhone}/>
+              <Input
+                label='Phone'
+                errorMsg={phoneError}
+                placeholder={'Enter your phone number'}
+                value={phone}
+                keyboardType='numeric'
+                onChangeText={validatePhone}/>
 
-          <View style={styles.checkBoxContainer}> 
-            <CheckBox style={styles.checkBox}
-              value={isRobotChecked}
-              onValueChange={setIsRobotChecked}/>
-            <Label>I am not a robot</Label>
+              <View style={styles.checkBoxContainer}> 
+                <CheckBox style={styles.checkBox}
+                  value={isRobotChecked}
+                  onValueChange={setIsRobotChecked}/>
+                <Label type='checkboxLabel'>I am not a robot</Label>
+              </View>
+
+              <View style={styles.buttonContainer}>
+                <Button
+                  title='Reset'
+                  color={colors.redoButtonColor}
+                  onPress={handleReset}/>
+                <Button
+                  title='Register'
+                  color={colors.confirmButtonColor}
+                  onPress={handleStart}
+                  disabled={!isFormComplete}/>
+              </View>
+            </View>
           </View>
-
-          <View style={styles.buttonContainer}>
-            <Button
-              title='Reset'
-              color={colors.redoButtonColor}
-              onPress={handleReset}/>
-            <Button
-              title='Register'
-              color={colors.confirmButtonColor}
-              onPress={handleStart}
-              disabled={!isFormComplete}/>
-          </View>
-        </View>
-      </View>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
 export default Start;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-  },
-  infomationContainer:{
-    width: 300,
-    height: 410,
-    marginVertical: 12,
-    marginLeft: 10,
-    padding: 35,
-    borderRadius: 10,
-    backgroundColor: colors.cardBackgroundColor,
-    shadowColor: colors.cardShadowColor,
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 5,
-  },
-  topView: {
-    flex: 1,
-    alignContent: 'center',
-    justifyContent: 'center',
-  },
-  bottomView: {
-    flex: 10,
-    alignContent: 'center',
-    justifyContent: 'center',
-  },
   checkBoxContainer: {
+    paddingHorizontal: 10,
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
   },
   checkBox: {
     color: colors.primaryColor,
-    marginLeft: 10,
   },
   buttonContainer: {
     flexDirection: 'row',

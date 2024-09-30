@@ -1,16 +1,17 @@
-import React, {useState} from 'react'
-import { Text, TextInput, StyleSheet } from 'react-native'
+import React from 'react'
+import { TextInput, StyleSheet } from 'react-native'
+import Label from './Label';
 import colors from '../config/colors';
 
 const Input = (props) => {
   const {label, errorMsg, ...inputProps} = props;
   return (
     <>
-      <Text style={styles.label}>{label}</Text>
+      <Label type='label'>{label}</Label>
       <TextInput
         {...inputProps}
         style={styles.input} />
-      <Text style={styles.errorText}>{errorMsg}</Text>
+      <Label type='errorText'>{errorMsg}</Label>
     </>
   );
 };
@@ -18,23 +19,13 @@ const Input = (props) => {
 export default Input;
 
 const styles = StyleSheet.create({
-  label: {
-    fontSize: 16,
-    color: colors.primaryColor,
-    marginBottom: 5,
-    textAlign: 'left',
-  },
   input: {
-    height: 40,
     fontSize: 16,
     color: colors.primaryColor,
     borderBlockColor: colors.primaryColor,
     borderBottomWidth: 2,
+    height: 40,
+    minWidth: 140,
     textAlign: 'left',
-  },
-  errorText: {
-    color: colors.errorTextColor,
-    fontSize: 10,
-    marginBottom: 10,
   },
 });

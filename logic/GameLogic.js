@@ -15,21 +15,29 @@ const GameLogic = {
     return multiples[randomIndex];
   },
 
+  generateHint: (chosenNumber) => {
+    if (chosenNumber <= 50) {
+      return 'The number is between 1 and 50.';
+    } else {
+      return 'The number is between 51 and 100.';
+    }
+  },
+
   // Check if the guess is correct, indicating too high or too low
   checkGuess: (guessedNumber, chosenNumber, attempts) => {
-    let feedbackMessage = '';
+    let feedback = '';
     let correct = false;
     let attemptsLeft = attempts - 1;
 
     if (guessedNumber === chosenNumber) {
       correct = true;
-      feedbackMessage = 'You guessed correct!';
+      feedback = 'You guessed correct!';
     } else if (guessedNumber > chosenNumber) {
-      feedbackMessage = 'You did not guess correct! You should guess lower.';
+      feedback = 'You did not guess correct!\nYou should guess lower.';
     } else {
-      feedbackMessage =  'You did not guess correct! You should guess higher.';
+      feedback =  'You did not guess correct!\nYou should guess higher.';
     }
-    return { correct, feedbackMessage, attemptsLeft };
+    return { correct, feedback, attemptsLeft };
   },
 };
 

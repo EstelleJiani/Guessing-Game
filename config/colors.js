@@ -8,6 +8,8 @@ const colors = {
   backgroundGradientStart:'#a8c0ff',
   backgroundGradientEnd:'#fff5ee',
 
+  modalBackgroundColor:'rgba(0, 0, 0, 0.6)',
+
   disabledColor:"gainsboro",
   buttonTextColor:"white",
   redoButtonColor:"salmon",

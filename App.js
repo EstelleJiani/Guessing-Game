@@ -4,17 +4,14 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Start from './screens/Start';
 import Confirm from './screens/Confirm';
 import Game from './screens/Game';
+import commonStyles from './config/commonStyles';
 import colors from './config/colors';
 
 const App = () => {
   // set the current screen to 'start' by default
   const [currentScreen, setCurrentScreen] = useState('start');
-  const [userData, setUserData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-  });
-  const [chosenNumber, setChosenNumber] = useState(null);
+  const [userData, setUserData] = useState({});
+  const [lastDigit, setLastDigit] = useState(null);
 
   // Function to navigate from the start screen to the confirm screen
   const handleConfirm = (data) => {
@@ -25,8 +22,7 @@ const App = () => {
 
   // Function to navigate from the confirm screen to the game screen
   const handleGameStart = () => {
-    const lastDigit = parseInt(userData.phone[userData.phone.length - 1], 10);
-    setChosenNumber(GameLogic.generateNumber(lastDigit));
+    setLastDigit(parseInt(userData.phone[userData.phone.length - 1], 10));
     setCurrentScreen('game');
   }
 
@@ -40,15 +36,17 @@ const App = () => {
       colors={
         [colors.backgroundGradientStart, colors.backgroundGradientEnd]}
       style={styles.background}>
-      <View style={styles.container}>
-        <Start onConfirm={handleConfirm} appName="Guessing Game" />
+      <View style={commonStyles.container}>
+        {(currentScreen === 'start' || currentScreen === 'confirm') && (
+          <Start onConfirm={handleConfirm} appName="Guessing Game" />
+        )}
         {currentScreen === 'confirm' && (
           <Confirm userData={userData}
                    onContinue={handleGameStart}
                    onGoBack={handleEdit} />
         )}
         {currentScreen === 'game' && (
-          <Game chosenNumber={chosenNumber} onRestart={handleEdit} />
+          <Game lastDigit={lastDigit} onRestart={handleEdit} />
         )}
       </View>
     </LinearGradient>
@@ -60,10 +58,5 @@ export default App;
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
